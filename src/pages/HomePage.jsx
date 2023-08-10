@@ -2,6 +2,7 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { useEffect, useState, useRef } from "react";
 import emojiPicker from "../assets/emoji-picker.png";
+import linker from "../assets/link.png";
 
 const messages = [
   {
@@ -24,6 +25,67 @@ const messages = [
     msg: "Cool🔥!",
     timestamp: "1691487033",
   },
+  {
+    sender: "0x32d1dBf8019011c07061782DEB04181e430AcBF0",
+    msg: "Hey, WhatsApp",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0xEBA97E01DaF90479C55782EE9F58C11c5B892825",
+    msg: "Whatsapp! Whats Going onn?",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0x32d1dBf8019011c07061782DEB04181e430AcBF0",
+    msg: "Exploring EVM!",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0xEBA97E01DaF90479C55782EE9F58C11c5B892825",
+    msg: "Cool🔥!",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0x32d1dBf8019011c07061782DEB04181e430AcBF0",
+    msg: "Hey, WhatsApp",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0xEBA97E01DaF90479C55782EE9F58C11c5B892825",
+    msg: "Whatsapp! Whats Going onn?",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0x32d1dBf8019011c07061782DEB04181e430AcBF0",
+    msg: "Exploring EVM!",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0xEBA97E01DaF90479C55782EE9F58C11c5B892825",
+    msg: "Cool🔥!",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0x32d1dBf8019011c07061782DEB04181e430AcBF0",
+    msg: "Hey, WhatsApp",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0xEBA97E01DaF90479C55782EE9F58C11c5B892825",
+    msg: "Whatsapp! Whats Going onn?",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0x32d1dBf8019011c07061782DEB04181e430AcBF0",
+    msg: "Exploring EVM!",
+    timestamp: "1691487033",
+  },
+  {
+    sender: "0xEBA97E01DaF90479C55782EE9F58C11c5B892825",
+    msg: "Cool🔥!",
+    timestamp: "1691487033",
+  },
+  
 ];
 
 const connection = "0xEBA97E01DaF90479C55782EE9F58C11c5B892825";
@@ -34,6 +96,8 @@ const HomePage = () => {
   const [openE, setOpenE] = useState(false);
   const emojiPickerRef = useRef();
   const emojiPickerImageRef = useRef();
+  const linkPicker = useRef();
+  const [link, setLink] = useState(false);
 
   const closeEmoji = () => {
     setOpenE(false);
@@ -45,7 +109,6 @@ const HomePage = () => {
 
   useEffect(() => {
     const handleDocumentClick = (event) => {
-      console.log(event, emojiPickerImageRef);
       if (
         emojiPickerRef.current &&
         !emojiPickerRef.current.contains(event.target) &&
@@ -53,6 +116,7 @@ const HomePage = () => {
       ) {
         closeEmoji();
       }
+
     };
 
     document.addEventListener("click", handleDocumentClick);
@@ -70,7 +134,7 @@ const HomePage = () => {
         >
           <span>{connection}</span>
         </div>
-        <div className="h-full flex flex-col gap-[10px] pt-[10px]">
+        <div className="h-full overflow-scroll messages-box flex flex-col gap-[10px] pt-[10px]">
           {messages.map((el, i) => (
             <div
               key={i}
@@ -88,9 +152,18 @@ const HomePage = () => {
             </div>
           ))}
         </div>
+        {link == true && (
+          <div className="flex justify-end w-[92%]" ref={linkPicker}>
+            <div className="relative flex flex-wrap gap-[10px] w-[132px] p-[10px] rounded-[10px]  border-[1px] border-sky-300 ">
+              <div className="w-[50px] h-[50px] border-[1px] rounded-[10px] border-black"></div>
+              <div className="w-[50px] h-[50px] border-[1px] rounded-[10px] border-black"></div>
+              <div className="w-[50px] h-[50px] border-[1px] rounded-[10px] border-black"></div>
+            </div>
+          </div>
+        )}
         <div
           className={`${
-            openE === false ? "hidden" : ""
+            openE === false ? "hidden" : "justify-end"
           } relative top-[-100px] main-picker-div`} // Add identifier to emoji picker div
           ref={emojiPickerRef}
         >
@@ -108,7 +181,10 @@ const HomePage = () => {
           } justify-center self-center  mb-[25px] p-[5px] border-[1px] rounded-[3.5rem] border-black shadow-xl bg-gray-200`}
         >
           <div className="flex w-full h-full items-center p-[10px] bg-white rounded-[3.5rem]">
-            <span className="relative pl-[7px] cursor-pointer">
+            <span
+              className="relative pl-[7px] cursor-pointer"
+              onClick={openEmoji}
+            >
               <img
                 src={emojiPicker}
                 onClick={openEmoji}
@@ -122,10 +198,20 @@ const HomePage = () => {
               className="w-full  pl-[15px] outline-none border-none  rounded-[3.5rem] bg-none"
               placeholder="Send message..."
               value={message}
+              id="msg-box"
               onChange={(e) => {
                 setMessage(e.target.value);
               }}
             ></input>
+
+            <span
+              className="relative pr-[7px] pl-[7px] cursor-pointer"
+              onClick={() => {
+                setLink(prev=> !prev);
+              }}
+            >
+              <img src={linker} alt="🔗" width={26} />
+            </span>
           </div>
         </div>
       </div>
