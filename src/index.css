@@ -2,3 +2,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.main-picker-div {
+    width: max-content;
+}
+
+.main-picker-div > div{
+    width: max-content;
+}

@@ -1,3 +1,8 @@
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { useEffect, useState, useRef } from "react";
+import emojiPicker from "../assets/emoji-picker.png";
+
 const messages = [
   {
     sender: "0x32d1dBf8019011c07061782DEB04181e430AcBF0",
@@ -22,40 +27,106 @@ const messages = [
 ];
 
 const connection = "0xEBA97E01DaF90479C55782EE9F58C11c5B892825";
-
 const user = "0x32d1dBf8019011c07061782DEB04181e430AcBF0";
 
 const HomePage = () => {
+  const [message, setMessage] = useState("");
+  const [openE, setOpenE] = useState(false);
+  const emojiPickerRef = useRef();
+  const emojiPickerImageRef = useRef();
+
+  const closeEmoji = () => {
+    setOpenE(false);
+  };
+
+  const openEmoji = () => {
+    setOpenE(true);
+  };
+
+  useEffect(() => {
+    const handleDocumentClick = (event) => {
+      console.log(event, emojiPickerImageRef);
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target) &&
+        event.target !== emojiPickerImageRef.current
+      ) {
+        closeEmoji();
+      }
+    };
+
+    document.addEventListener("click", handleDocumentClick);
+
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, []);
+
   return (
-    <div className="flex font-roboto justify-center  w-full h-full">
-      <div className="w-[600px] h-full flex flex-col gap-[10px] p-[15px] border-r-2 border-l-2 border-black shadow-xl bg-indigo-500">
+    <div className="flex font-roboto justify-center w-full h-full">
+      <div className="w-[600px] h-full flex flex-col gap-[10px] p-[17px] border-r-2 border-l-2 border-black shadow-xl bg-indigo-500">
         <div
           className={`font-poppins h-max cursor-pointer sticky shadow-2xl flex w-full p-[20px] justify-center items-center border-[1px] rounded-[10px] border-black`}
         >
           <span>{connection}</span>
         </div>
-        {messages.map((el, i) => (
-          <div
-            key={i}
-            className={`flex ${
-              user === el.sender ? "justify-end" : "justify-start"
-            }   `}
-          >
-            <span
-              className={`${
-                user === el.sender ? "bg-lime-300" : "bg-sky-300"
-              } p-[5px] pl-2 pr-2 rounded-[8px]`}
+        <div className="h-full flex flex-col gap-[10px] pt-[10px]">
+          {messages.map((el, i) => (
+            <div
+              key={i}
+              className={`flex ${
+                user === el.sender ? "justify-end" : "justify-start"
+              }`}
             >
-              {el.msg}
-            </span>
-          </div>
-        ))}
-        <div className="w-full h-[55px] p-[5px] border-[1px] self-end rounded-[3.5rem] border-black shadow-xl bg-gray-200">
-          <input
-            type="text"
-            className="w-full h-full pl-[15px] outline-none border-none  rounded-[3.5rem]"
-            placeholder="Send message..."
+              <span
+                className={`${
+                  user === el.sender ? "bg-lime-300" : "bg-sky-300"
+                } p-[5px] pl-2 pr-2 rounded-[8px]`}
+              >
+                {el.msg}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div
+          className={`${
+            openE === false ? "hidden" : ""
+          } relative top-[-100px] main-picker-div`} // Add identifier to emoji picker div
+          ref={emojiPickerRef}
+        >
+          <Picker
+            data={data}
+            onEmojiSelect={(e) => {
+              setMessage((prev) => (prev += e.native));
+            }}
+            previewPosition="none"
           />
+        </div>
+        <div
+          className={`w-[90%]  ${
+            openE === true ? "relative top-[-87px]" : "h-[65px]"
+          } justify-center self-center  mb-[25px] p-[5px] border-[1px] rounded-[3.5rem] border-black shadow-xl bg-gray-200`}
+        >
+          <div className="flex w-full h-full items-center p-[10px] bg-white rounded-[3.5rem]">
+            <span className="relative pl-[7px] cursor-pointer">
+              <img
+                src={emojiPicker}
+                onClick={openEmoji}
+                alt="🙂"
+                width={28}
+                ref={emojiPickerImageRef}
+              />
+            </span>
+            <input
+              type="text"
+              className="w-full  pl-[15px] outline-none border-none  rounded-[3.5rem] bg-none"
+              placeholder="Send message..."
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value);
+              }}
+            ></input>
+          </div>
         </div>
       </div>
     </div>
