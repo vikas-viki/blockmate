@@ -85,7 +85,6 @@ const messages = [
     msg: "Cool🔥!",
     timestamp: "1691487033",
   },
-  
 ];
 
 const connection = "0xEBA97E01DaF90479C55782EE9F58C11c5B892825";
@@ -104,6 +103,7 @@ const HomePage = () => {
   };
 
   const openEmoji = () => {
+    setLink(false);
     setOpenE(true);
   };
 
@@ -116,7 +116,6 @@ const HomePage = () => {
       ) {
         closeEmoji();
       }
-
     };
 
     document.addEventListener("click", handleDocumentClick);
@@ -153,32 +152,37 @@ const HomePage = () => {
           ))}
         </div>
         {link == true && (
-          <div className="flex justify-end w-[92%]" ref={linkPicker}>
-            <div className="relative flex flex-wrap gap-[10px] w-[132px] p-[10px] rounded-[10px]  border-[1px] border-sky-300 ">
+          <div
+            className="w-max h-[0px] relative top-[-130px] "
+            ref={linkPicker}
+          >
+            <div className="relative flex flex-wrap gap-[10px] w-[132px] p-[10px] rounded-[10px] bg-cyan-200 left-[390px]  border-[1px] border-sky-300 ">
               <div className="w-[50px] h-[50px] border-[1px] rounded-[10px] border-black"></div>
               <div className="w-[50px] h-[50px] border-[1px] rounded-[10px] border-black"></div>
               <div className="w-[50px] h-[50px] border-[1px] rounded-[10px] border-black"></div>
             </div>
           </div>
         )}
-        <div
-          className={`${
-            openE === false ? "hidden" : "justify-end"
-          } relative top-[-100px] main-picker-div`} // Add identifier to emoji picker div
-          ref={emojiPickerRef}
-        >
-          <Picker
-            data={data}
-            onEmojiSelect={(e) => {
-              setMessage((prev) => (prev += e.native));
-            }}
-            previewPosition="none"
-          />
-        </div>
+        {openE == true && (
+          <div
+            className={`w-max h-[0px]`} // Add identifier to emoji picker div
+            ref={emojiPickerRef}
+          >
+            <div className="relative top-[-440px]">
+              <Picker
+                data={data}
+                onEmojiSelect={(e) => {
+                  setMessage((prev) => (prev += e.native));
+                }}
+                previewPosition="none"
+              />
+            </div>
+          </div>
+        )}
         <div
           className={`w-[90%]  ${
-            openE === true ? "relative top-[-87px]" : "h-[65px]"
-          } justify-center self-center  mb-[25px] p-[5px] border-[1px] rounded-[3.5rem] border-black shadow-xl bg-gray-200`}
+            openE === true ? "relative" : "h-[65px]"
+          } justify-center self-center  mb-[18px] p-[5px] border-[1px] rounded-[3.5rem] border-black shadow-xl bg-gray-200`}
         >
           <div className="flex w-full h-full items-center p-[10px] bg-white rounded-[3.5rem]">
             <span
@@ -207,7 +211,8 @@ const HomePage = () => {
             <span
               className="relative pr-[7px] pl-[7px] cursor-pointer"
               onClick={() => {
-                setLink(prev=> !prev);
+                setOpenE(false);
+                setLink((prev) => !prev);
               }}
             >
               <img src={linker} alt="🔗" width={26} />
