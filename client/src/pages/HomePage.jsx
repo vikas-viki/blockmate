@@ -3,6 +3,14 @@ import Picker from "@emoji-mart/react";
 import { useEffect, useState, useRef } from "react";
 import emojiPicker from "../assets/emoji-picker.png";
 import linker from "../assets/link.png";
+import { FleekSdk, ApplicationAccessTokenService } from '@fleekxyz/sdk';
+
+ 
+const applicationService = new ApplicationAccessTokenService({
+    clientId: 'client_eBOerNH7c4mmuiMx0mnH',
+})
+ 
+const fleekSdk = new FleekSdk({ accessTokenService: applicationService })
 
 const messages = [
   {
@@ -107,6 +115,15 @@ const HomePage = () => {
     setOpenE(true);
   };
 
+  
+
+  async function submit() {
+    
+    const result = await  fleekSdk.ipns().publishRecord({ id: 'clfmcbagx0000mg081ytm65cp', hash: 'QmRG4xcsmoZuXqKuPz3uVBgvo3GZ6k1kLZWhmvzuKtDr9s' })
+
+    console.log(result);
+  }
+
   useEffect(() => {
     const handleDocumentClick = (event) => {
       if (
@@ -133,6 +150,7 @@ const HomePage = () => {
         >
           <span>{connection}</span>
         </div>
+        <button onClick={submit}>submit1</button>
         <div className="h-full overflow-scroll messages-box flex flex-col gap-[10px] pt-[10px]">
           {messages.map((el, i) => (
             <div
