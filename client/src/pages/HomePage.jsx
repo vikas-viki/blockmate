@@ -62,36 +62,40 @@ const HomePage = () => {
     };
   }, []);
 
+
+
   return (
-    <div className="flex font-roboto justify-center w-full h-full">
-      <div className="w-[600px] h-full flex flex-col gap-[10px] p-[17px] border-r-2 border-l-2 border-black shadow-xl bg-indigo-500">
-        <div
-          className={`font-poppins h-max cursor-pointer sticky shadow-2xl flex w-full p-[20px] justify-center items-center border-[1px] rounded-[10px] border-black`}
-        >
-          <span>{connection}</span>
+    <>
+        <div className="flex font-roboto justify-center w-full h-full">
+          <div className="w-[600px] h-full flex flex-col gap-[10px] p-[17px] border-r-2 border-l-2 border-black shadow-xl bg-indigo-500">
+            <div
+              className={`font-poppins h-max cursor-pointer sticky shadow-2xl flex w-full p-[20px] justify-center items-center border-[1px] rounded-[10px] border-black`}
+            >
+              <span>{connection}</span>
+            </div>
+            <button onClick={submit}>submit1</button>
+            <Messages messages={messages} user={user} />
+            {link == true && <Linker linkPicker={linkPicker} />}
+            {openE == true && (
+              <EmojiPicker
+                emojiPickerRef={emojiPickerRef}
+                setMessage={setMessage}
+              />
+            )}
+            <Input
+              openE={openE}
+              openEmoji={openEmoji}
+              emojiPicker={emojiPicker}
+              emojiPickerImageRef={emojiPickerImageRef}
+              message={message}
+              setMessage={setMessage}
+              setOpenE={setOpenE}
+              setLink={setLink}
+              linker={linker}
+            />
+          </div>
         </div>
-        <button onClick={submit}>submit1</button>
-        <Messages messages={messages} user={user} />
-        {link == true && <Linker linkPicker={linkPicker} />}
-        {openE == true && (
-          <EmojiPicker
-            emojiPickerRef={emojiPickerRef}
-            setMessage={setMessage}
-          />
-        )}
-        <Input
-          openE={openE}
-          openEmoji={openEmoji}
-          emojiPicker={emojiPicker}
-          emojiPickerImageRef={emojiPickerImageRef}
-          message={message}
-          setMessage={setMessage}
-          setOpenE={setOpenE}
-          setLink={setLink}
-          linker={linker}
-        />
-      </div>
-    </div>
+    </>
   );
 };
 

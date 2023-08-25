@@ -3,17 +3,27 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import "./index.css";
 import SideBar from "./components/SideBar.jsx";
+import { useAccount } from "wagmi";
+import ConnectWallet from "./components/ConnectWallet";
 
 const App = () => {
+  const { address } = useAccount();
+
   return (
     <BrowserRouter>
-      <Navbar />
-      <div className="flex h-[92.5vh]">
-        <SideBar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-        </Routes>
-      </div>
+      {!address ? (
+        <ConnectWallet />
+      ) : (
+        <>
+          <Navbar />
+          <div className="flex h-[92.5vh]">
+            <SideBar />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+            </Routes>
+          </div>
+        </>
+      )}
     </BrowserRouter>
   );
 };
