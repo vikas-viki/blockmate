@@ -13,10 +13,14 @@
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
     "@fleekxyz/sdk": "^0.6.0",
+    "@wagmi/core": "^1.3.9",
+    "@web3modal/ethereum": "^2.7.1",
+    "@web3modal/react": "^2.7.1",
     "emoji-mart": "^5.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.2"
+    "react-router-dom": "^6.14.2",
+    "wagmi": "^1.3.10"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

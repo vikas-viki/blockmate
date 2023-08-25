@@ -20,7 +20,8 @@ const uploadToIPFS = async () => {
 
 
 const pinToIpns = async (_hash) => {
-    const ipnsRecord = await fleekSdk.ipns().publishRecord({ id: 'cllhtt4p10000l708gg07xgz0', hash: _hash });
+    const record = await fleekSdk.ipns().createRecord();
+    const ipnsRecord = await fleekSdk.ipns().publishRecord({ id: record.id, hash: _hash });
     console.log(ipnsRecord);
 }
 
