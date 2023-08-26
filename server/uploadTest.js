@@ -8,27 +8,27 @@ const patService = new PersonalAccessTokenService({
 
 const fleekSdk = new FleekSdk({ accessTokenService: patService });
 
-
-const uploadToIPFS = async () => {
+export const uploadToIPFS = async (msgs) => {
     const result = await fleekSdk.ipfs().add({
         path: "example.txt",
-        content: Buffer.from('Hello World 123!', 'utf-8'),
+        content: Buffer.from(msgs, 'utf-8'),
     });
     console.log(result);
-    return result;
+    return result.cid;
 }
 
-
-const pinToIpns = async (_hash) => {
+export const createRecord = async () =>{
     const record = await fleekSdk.ipns().createRecord();
-    const ipnsRecord = await fleekSdk.ipns().publishRecord({ id: record.id, hash: _hash });
+    return record.id;
+}
+
+export const pinToIpns = async (_id, _hash) => {
+    const ipnsRecord = await fleekSdk.ipns().publishRecord({ id: _id.toString(), hash: _hash.toString() });
     console.log(ipnsRecord);
+    return ipnsRecord.name;
 }
 
-
-async function main() {
-    const IPFS_hash = await uploadToIPFS();
-    await pinToIpns(IPFS_hash);
+export const resolveIPNS = async (_name)=>{
+    const result = await fleekSdk.ipns().resolveName({ name: _name });
+    return result.name;
 }
-
-main();
