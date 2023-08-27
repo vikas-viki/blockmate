@@ -5,8 +5,9 @@ const { uploadToIPFS, pinToIpns, resolveIPNS, createRecord } = require("./upload
  
 // Route handler
 const uploadAndPin = async function (req, res) {
-    if (req.body.msgs) {
-        const hash = await uploadToIPFS(req.body.msgs);
+    console.log(req.body);
+    if (req.body.messages) {
+        const hash = await uploadToIPFS(req.body.messages);
         const record_id = await createRecord();
         const pinName = await pinToIpns(record_id, hash);
         res.json({pinName, record_id});
@@ -36,3 +37,12 @@ router.post('/resolve-pin', async function (req, res) {
 });
 
 module.exports = router;
+
+/*
+    Steps
+    1. Client calls, '/initial-pin' passing messages, we return him 'pinName' & 'record_id' & t stores both in blockchain.
+        a) pinName => name which is used to resolve name and get hash.
+        b) record_id => used to update hash of the above name.
+    2. Client calls, '/repin' passing updated messages along with record ID to pin it (it repins to same name).
+    3. Client calls, '/resolve-pin' passing 'name' to be resolved to get the ipfs hash.
+*/

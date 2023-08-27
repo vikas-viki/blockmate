@@ -11,7 +11,7 @@ const fleekSdk = new FleekSdk({ accessTokenService: patService });
 const uploadToIPFS = async (msgs) => {
     const result = await fleekSdk.ipfs().add({
         path: "example.txt",
-        content: Buffer.from(msgs, 'utf-8'),
+        content: Buffer.from(JSON.stringify(msgs), 'utf-8'),
     });
     console.log(result);
     return result.cid;
